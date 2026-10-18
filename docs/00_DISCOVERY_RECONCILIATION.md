@@ -8,7 +8,7 @@ silently overwriting existing modules.
 
 | Item the spec says to review | Found in this workspace | Consequence |
 |---|---|---|
-| NextMind repository / monorepo | **Not present.** The workspace is `Eventra`, whose existing content is *MirrorLink* (screen mirroring over WebRTC, Android/iOS senders). Unrelated to NextMind. | WP-00 cannot be completed. D-01 stays open. |
+| NextMind repository / monorepo | **Not present.** The workspace this was built in held an unrelated project (screen mirroring), and no NextMind code. This repository is the stand-alone result. | WP-00 cannot be completed. D-01 stays open. |
 | Gate decision records, ADRs | None. The spec's own text says G0/G1 are not closed, G2 is design-conditional, G3–G6 not passed. | Only synthetic-data design/prototyping is authorised. |
 | Shared identity, consent, Student Profile, Journey Engine, Approval Inbox, Audit, model gateway | None to integrate with. | Minimal, clearly labelled stand-ins were built (below). |
 | University catalog / admissions sources | None. | A fictional catalog is used; no real data is claimed. |
@@ -17,7 +17,7 @@ silently overwriting existing modules.
 
 ## Decisions taken because of that
 
-1. **Stand-alone folder** `student-discovery/` (not mixed into MirrorLink code). Nothing outside this folder was modified.
+1. **Stand-alone repository** (it was first built as a folder inside an unrelated project's repository and then split out with its history). Nothing in it depends on that project.
 2. **Stand-ins, each isolated and marked**, replacing shared services that do not exist here:
    | Stand-in | Replaces | Where |
    |---|---|---|
