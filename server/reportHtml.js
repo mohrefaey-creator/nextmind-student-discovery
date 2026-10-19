@@ -75,12 +75,10 @@ h2 { break-after: avoid; } tr { break-inside: avoid; } thead { display: table-he
 table { border-collapse: collapse; width: 100%; margin: 4pt 0; }
 th, td { border: 1px solid #9aa7b3; padding: 3pt 6pt; text-align: start; vertical-align: middle; } thead th { background: #e8eef3; }
 td.num, th.num { text-align: end; width: 28%; white-space: nowrap; } .bar { display: block; height: 6pt; margin-top: 2pt; background: #e8eef3; border-radius: 2pt; direction: ltr; } .bar span { display: block; height: 6pt; background: #0b5c8a; border-radius: 2pt; }
-.proto { border: 1.5px solid #7a5200; background: #fff4d6; padding: 4pt 8pt; margin-bottom: 10pt; font-size: 9.5pt; }
 .meta { color: #3b4a57; font-size: 9.5pt; } .note { color: #3b4a57; font-size: 9.5pt; } code { font-family: "DejaVu Sans Mono", monospace; font-size: 8.5pt; direction: ltr; unicode-bidi: isolate; word-break: break-all; }
 footer { margin-top: 18pt; border-top: 1px solid #9aa7b3; padding-top: 6pt; font-size: 9pt; color: #3b4a57; }
 </style></head>
 <body>
-<p class="proto"><strong>${esc(T('proto.banner.title'))}</strong> ${esc(T('proto.banner.body'))}</p>
 <header><h1>${esc(T('report.title'))}</h1>
 <p><bdi>${name}</bdi> · ${esc(T('common.grade', { n: num(p.student.grade) }))} · ${esc(T('report.status.approved'))}</p>
 <p class="meta">${esc(T('report.created', { d: day(view.created_at) }))} · ${approvedOn}</p></header>

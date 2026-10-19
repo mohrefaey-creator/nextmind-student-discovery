@@ -13,8 +13,6 @@ def add(key, en, ar): D[key] = (en, ar)
 # ---------------------------------------------------------------- shell / common
 add('app.name', 'NextMind · Discover My Strengths', 'نكست مايند · اكتشف ميولك وقدراتك')
 add('a11y.skip', 'Skip to main content', 'تخطَّ إلى المحتوى الرئيسي')
-add('proto.banner.title', 'Synthetic prototype.', 'نموذج تجريبي.')
-add('proto.banner.body', 'Fictional programs and synthetic personas only. Not for real students and not a production system.', 'برامج وهمية وشخصيات اصطناعية فقط. غير مخصص لطلاب حقيقيين وليس نظامًا تشغيليًا.')
 add('incident.banner', 'The module is suspended (incident mode).', 'الوحدة موقوفة مؤقتًا (وضع الحوادث).')
 add('footer.limits', 'Exploratory tools only: no diagnosis, no percentiles, no admission decision or probability. Every score can be replayed from the saved answers.', 'أدوات استكشافية فقط: لا تشخيص ولا رتب مئينية ولا قرار قبول أو احتمال قبول. يمكن إعادة احتساب كل درجة من الإجابات المحفوظة.')
 add('footer.policy', 'Consent policy version: {v}', 'إصدار سياسة الموافقة: {v}')
@@ -85,8 +83,6 @@ add('deny.csrf', 'Your session needs refreshing. Please sign in again.', 'تحت
 # ---------------------------------------------------------------- login
 add('login.title', 'Choose a synthetic persona', 'اختر شخصية اصطناعية')
 add('login.lead', 'This local prototype lets you try every role without real accounts.', 'يتيح لك هذا النموذج المحلي تجربة كل الأدوار دون حسابات حقيقية.')
-add('login.notice.title', 'Not real sign-in.', 'ليس تسجيل دخول حقيقيًا.')
-add('login.notice.body', 'These personas stand in for NextMind\'s identity service. Every request is still checked on the server for school, role, relationship and consent.', 'تحل هذه الشخصيات محل خدمة الهوية في نكست مايند. ومع ذلك يتحقق الخادم من كل طلب: المدرسة والدور والعلاقة والموافقة.')
 for r, (s, p, sa, pa) in {
     'student': ('Student', 'Students', 'الطالب', 'الطلاب'),
     'guardian': ('Guardian', 'Guardians', 'ولي الأمر', 'أولياء الأمور'),

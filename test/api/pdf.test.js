@@ -139,7 +139,8 @@ test('approved report: a real, tagged PDF in Arabic and English; escaped content
   assert.ok(!/�/.test(a.text), 'no replacement characters (missing glyphs)');
   assert.match(e.text, /Demo Student A2/);
   assert.match(e.text, /<script>alert\(1\)<\/script>/, 'markup in a note is printed as text, never interpreted');
-  assert.match(e.text, /Synthetic prototype/);
+  assert.doesNotMatch(e.text, /Synthetic prototype/);
+  assert.match(e.text, /\(Fictional\)/, 'program names are still labelled fictional');
   assert.match(e.text, /Content fingerprint/);
   assert.match(e.text, /not an admission decision and shows no chance of acceptance/);
   assert.ok(!/%|٪/.test(e.text + a.text), 'no percentage that could be read as a probability');

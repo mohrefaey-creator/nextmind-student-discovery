@@ -16,7 +16,6 @@ export default async function view() {
     title: t('login.title'),
     body: h`<div class="stack">
       <div class="hero"><h1>${t('login.title')}</h1><p class="lead">${t('login.lead')}</p></div>
-      <div class="card warn" role="note"><strong>${t('login.notice.title')}</strong> ${t('login.notice.body')}</div>
       ${ORDER.filter((r) => by[r]).map((r) => h`<section aria-labelledby="g-${r}"><h2 id="g-${r}">${t(`role.${r}.plural`)}</h2>
         <div class="persona-grid">${by[r].map((p) => h`<button class="btn secondary" type="button" data-persona="${p.id}">
           <span><bdi>${L(p.display_name)}</bdi><br><span class="small muted">${p.tenant_id === 'platform' ? '' : L(data.tenants[p.tenant_id])}${p.grade ? ` · ${t('common.grade', { n: p.grade })}` : ''}</span></span></button>`)}</div></section>`)}

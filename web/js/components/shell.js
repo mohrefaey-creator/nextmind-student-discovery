@@ -26,7 +26,6 @@ export function renderShell(currentPath) {
   const inc = state.me?.incident_mode;
   const top = h`
     ${inc?.enabled ? h`<div class="incident-banner" role="alert">⚠ ${t('incident.banner')}${inc.reason ? h` — ${inc.reason}` : ''}</div>` : ''}
-    <div class="proto-banner" role="note"><strong>${t('proto.banner.title')}</strong> ${t('proto.banner.body')}</div>
     <header class="site-header">
       <div class="inner">
         <a class="brand" href="#${me ? homeRoute(me.role) : '/login'}">${LOGO}<span>${t('app.name')}</span></a>
