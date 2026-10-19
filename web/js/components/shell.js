@@ -40,7 +40,7 @@ export function renderShell(currentPath) {
       </div>
     </header>`;
   mount(document.getElementById('shell-top'), top);
-  mount(document.getElementById('shell-footer'), h`<p>${t('footer.limits')}</p><p>${t('footer.policy', { v: state.me?.policy?.policy_version ?? '—' })}</p>`);
+  mount(document.getElementById('shell-footer'), h`<p>${t('footer.policy', { v: state.me?.policy?.policy_version ?? '—' })}</p>`);
   const skip = document.getElementById('skip-link');
   if (skip) skip.textContent = t('a11y.skip');
 }

@@ -381,7 +381,6 @@
  "fit.reason.flat_interest_profile": "Your interest scores are all equal, so there is nothing to compare.",
  "fit.reason.flat_program_profile": "The program profile has no emphasis to compare.",
  "fit.reason.riasec_dimension_incomplete": "Some interest areas have too few answers.",
- "footer.limits": "Exploratory tools only: no diagnosis, no percentiles, no admission decision or probability. Every score can be replayed from the saved answers.",
  "footer.policy": "Consent policy version: {v}",
  "guardian.adult": "This student is an adult, so consent is theirs alone. You will only see what they choose to share.",
  "guardian.auth.body": "For students under the school’s age threshold, assessments need both the student’s agreement and a guardian’s authorization.",

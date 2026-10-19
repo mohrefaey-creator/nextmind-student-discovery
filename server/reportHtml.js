@@ -83,6 +83,6 @@ footer { margin-top: 18pt; border-top: 1px solid #9aa7b3; padding-top: 6pt; font
 <p><bdi>${name}</bdi> · ${esc(T('common.grade', { n: num(p.student.grade) }))} · ${esc(T('report.status.approved'))}</p>
 <p class="meta">${esc(T('report.created', { d: day(view.created_at) }))} · ${approvedOn}</p></header>
 ${parts.join('\n')}
-<footer><p>${esc(T('footer.limits'))}</p><p>${esc(T('report.hash'))}: <code>${esc(view.payload_hash)}</code></p></footer>
+<footer><p>${esc(T('report.hash'))}: <code>${esc(view.payload_hash)}</code></p></footer>
 </body></html>`;
 }
