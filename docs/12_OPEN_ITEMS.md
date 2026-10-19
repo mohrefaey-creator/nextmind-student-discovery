@@ -28,6 +28,7 @@
 11. Attempt-to-attempt change policy (retake spacing, interpretation of change) beyond the placeholder maximum of five attempts.
 12. Conflict of interest and assignment policy (needs the signed authorization matrix, D-09): who may read a conflict reason and for how long; whether a platform role can override a school admin; how and how fast the school admin is alerted when a counselor steps away (the outbox event exists, nothing consumes it); what a student is told when their counselor changes; whether a conflict also bars reading the student's notes after handover.
 13. Guardian with several children: the selector and per-child consent are built; a guardian linked to children in different schools is not modelled (links are per student, the tenant check still applies per child).
+14. Remove the demo parent-approval shortcut (`DEMO_SHORTCUTS`, route `/students/:id/demo/guardian-authorization`) or keep it permanently off before any pilot with real students (see `08`, gap 15).
 
 ## Suggested next steps, in order
 1. Obtain the NextMind repository and gate records and complete WP-00 (replace the four stand-ins).

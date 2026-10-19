@@ -1,7 +1,7 @@
 import { h } from '../html.js';
 import { get, post, BASE } from '../api.js';
 import { t } from '../i18n.js';
-import { myId } from '../state.js';
+import { myId, state } from '../state.js';
 import { date } from '../format.js';
 import { chip } from '../components/ui.js';
 import { announce } from '../a11y.js';
@@ -34,7 +34,10 @@ export default async function view() {
               <label for="sc-${s}">${t('consent.assent', { what: t(`scope.${s}.title`) })}</label></div>
             <p class="error-text" data-warn="${s}" hidden role="status">${t('consent.withdraw_warning')}</p>
             ${needsGuardian ? h`<p class="hint">${t('consent.guardian_row')}: ${statusChip(sc.parties.guardian.state === 'granted' ? 'active' : sc.parties.guardian.state === 'withdrawn' ? 'withdrawn' : 'pending')}
-              ${sc.parties.guardian.state !== 'granted' ? t('consent.guardian_ask') : ''}</p>` : ''}
+              ${sc.parties.guardian.state !== 'granted' ? t('consent.guardian_ask') : ''}
+              ${sc.parties.guardian.demo_shortcut && sc.parties.guardian.state === 'granted' ? h`<strong>${t('consent.guardian_demo')}</strong>` : ''}</p>
+            ${needsGuardian && state.me?.demo_shortcuts && sc.parties.guardian.state !== 'granted' ? h`<div class="card flat" role="note"><h3>${t('consent.demo.title')}</h3><p class="small">${t('consent.demo.body')}</p>
+              <button class="btn secondary" type="button" data-demo-guardian>${t('consent.demo.button')}</button></div>` : ''}` : ''}
             ${sc.parties.student.at ? h`<p class="small muted">${t('consent.last_change', { d: date(sc.parties.student.at, true) })}</p>` : ''}
           </fieldset>`;
         })}
@@ -49,6 +52,12 @@ export default async function view() {
         const cb = e.target;
         const warn = form.querySelector(`[data-warn="${cb.name}"]`);
         if (warn) warn.hidden = !(cb.dataset.was === 'true' && !cb.checked);
+      });
+      form.querySelector('[data-demo-guardian]')?.addEventListener('click', async () => {
+        await post(`${BASE}/students/${sid}/demo/guardian-authorization`, {});
+        announce(t('consent.demo.done'));
+        await render();
+        document.getElementById('consent-msg').textContent = t('consent.demo.done');
       });
       form.addEventListener('submit', async (e) => {
         e.preventDefault();

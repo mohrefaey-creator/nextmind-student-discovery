@@ -77,6 +77,7 @@ export function registerRoutes(router, { sessions, clock }) {
     csrf_token: ctx.session?.csrf ?? null,
     linked_students: linkedStudents(ctx),
     synthetic_mode: ctx.config.syntheticMode,
+    demo_shortcuts: Boolean(ctx.config.demoShortcuts && ctx.config.syntheticMode), // lets the screens offer the demo-only parent-approval shortcut
     // The free-text reason may describe an ongoing incident; only the security role sees it.
     incident_mode: ctx.actor?.role === 'platform_security' ? ctx.db.meta.kill_switch : { enabled: ctx.db.meta.kill_switch.enabled },
     consent_scopes: Object.keys(CONSENT_SCOPES),
@@ -108,6 +109,7 @@ export function registerRoutes(router, { sessions, clock }) {
   get(`${B}/students/:id/discovery-profile`, (ctx) => student.discoveryProfile(ctx, ctx.params.id), { tx: true });
   get(`${B}/students/:id/consent`, (ctx) => consent.getConsent(ctx, ctx.params.id), { tx: true });
   post(`${B}/students/:id/consent`, (ctx) => consent.setConsent(ctx, ctx.params.id, ctx.body), during);
+  post(`${B}/students/:id/demo/guardian-authorization`, (ctx) => consent.demoGuardianAuthorization(ctx, ctx.params.id));
   get(`${B}/students/:id/evidence`, (ctx) => student.listEvidence(ctx, ctx.params.id), { tx: true });
   put(`${B}/students/:id/evidence/:type`, (ctx) => student.putEvidence(ctx, ctx.params.id, ctx.params.type, ctx.body));
   post(`${B}/students/:id/evidence/:evidenceId/verify`, (ctx) => student.verifyEvidence(ctx, ctx.params.id, ctx.params.evidenceId, ctx.body));

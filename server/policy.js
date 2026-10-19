@@ -48,7 +48,7 @@ export function consentState(db, studentId, now) {
     const parties = {};
     for (const role of ['student', 'guardian']) {
       const r = latest[`${scope}:${role}`];
-      parties[role] = r ? { state: r.state, record_id: r.id, at: r.created_at } : { state: 'none', record_id: null, at: null };
+      parties[role] = r ? { state: r.state, record_id: r.id, at: r.created_at, demo_shortcut: r.demo_shortcut === true } : { state: 'none', record_id: null, at: null, demo_shortcut: false };
     }
     const pending = required.filter((role) => parties[role].state === 'none');
     const withdrawn = required.filter((role) => parties[role].state === 'withdrawn');

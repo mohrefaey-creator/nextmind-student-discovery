@@ -33,6 +33,9 @@ export function loadConfig(env = process.env) {
     syntheticMode: env.SYNTHETIC_MODE !== 'false',
     // The persona stand-in is not authentication. Serving non-loopback hosts must be an explicit, loud opt-in.
     allowAnyHost: env.ALLOW_NETWORK_HOST === 'true',
+    // OFF by default. Lets a student under 18 skip the parent step so a demo can reach every screen. Honoured only
+    // while syntheticMode is on; every use is flagged in the consent record and the audit log.
+    demoShortcuts: env.DEMO_SHORTCUTS === 'true',
     // Optional: PDF export needs an installed Chromium/Chrome. Without one the export route answers 501.
     chromiumPath: env.CHROMIUM_PATH || null,
   };

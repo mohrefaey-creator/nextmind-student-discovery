@@ -5,10 +5,10 @@ All numbers below are from runs in this workspace (Node 22, Chromium from `/opt/
 | Suite | Command | Result | Notes |
 |---|---|---|---|
 | Unit (domain + UI helpers) | `npm test` | 43 tests | scoring, ties, property tests (300 random answer sets, monotonicity, order independence), gate, matching, recommendation runs, validation, i18n parity, CSP-safety lint, route-doc drift |
-| API + security (incl. 20 review regressions) | `npm test` | 106 tests | acceptance criteria, authorization, tenancy, consent, concurrency, governance, audit, kill switch, rate limit, outbox retry; raw-answer scope, multi-child guardians, conflict of interest and reassignment, PDF export (real Chromium, a missing browser, a failing browser) |
+| API + security (incl. 20 review regressions) | `npm test` | 113 tests | acceptance criteria, authorization, tenancy, consent, concurrency, governance, audit, kill switch, rate limit, outbox retry; raw-answer scope, multi-child guardians, conflict of interest and reassignment, PDF export (real Chromium, a missing browser, a failing browser), the demo parent-approval shortcut (off by default, honest record, adults and other roles refused, synthetic-only, incident-safe), cookie flags |
 | Contract (OpenAPI + events) | `npm run test:contract` (also in `npm test`) | 8 tests | route parity and security per route, a scenario that exercises all 61 operations (54 paths) through the real API and validates its 105 requests and responses, safety invariants over every body, every outbox event against its schema |
 | Lint | `npm run lint` | clean | unused imports/vars, undefined names |
-| Browser E2E | `npm run test:e2e` | 26/26 steps | real app in Chromium with the CSP enforced, Arabic and English, mobile width, offline/reconnect, keyboard, four-eyes, kill switch |
+| Browser E2E | `npm run test:e2e` | 27/27 steps | real app in Chromium with the CSP enforced, Arabic and English, mobile width, offline/reconnect, keyboard, four-eyes, kill switch |
 | Accessibility scan | inside the E2E run | **0 axe-core violations** (WCAG 2.0/2.1/2.2 A+AA tags) | every screen, ar-SA and en, light and dark, six personas |
 
 `npm test` finishes in about 7 seconds (the PDF tests start a real Chromium); the E2E run in about 45 seconds.

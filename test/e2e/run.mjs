@@ -29,7 +29,7 @@ function chromiumPath() {
 
 const { server } = createApp({ dataFile: null, loginLimitPerMinute: 100000 }); // the suite signs in far more often than a person would
 await new Promise((r) => server.listen(0, '127.0.0.1', r));
-const base = `http://127.0.0.1:${server.address().port}`;
+let base = `http://127.0.0.1:${server.address().port}`; // switched briefly by the demo-shortcut step, which needs a server started with the flag
 const browser = await chromium.launch({ executablePath: chromiumPath(), args: ['--no-sandbox'] });
 
 const problems = []; // console / page errors from every page, reported at the end
@@ -143,6 +143,7 @@ await step('AC-01 no consent: dashboard is locked with a clear way forward; cons
   await go(page, '/consent');
   const proc = page.locator('#sc-assessment_processing');
   assert.equal(await proc.isChecked(), false, 'nothing is pre-ticked');
+  assert.equal(await page.locator('[data-demo-guardian]').count(), 0, 'the demo shortcut is not offered unless the server was started with it');
   for (const s of ['counselor_sharing', 'raw_answer_sharing', 'guardian_summary_sharing', 'advisor_explanation', 'aggregate_analytics']) assert.equal(await page.locator(`#sc-${s}`).isChecked(), false);
   await proc.check();
   await page.click('#consent-form button[type=submit]');
@@ -663,6 +664,41 @@ await step('WCAG 2.2 AA automated scan (axe-core): zero violations on every scre
   fs.writeFileSync(path.join(out, 'axe-report.json'), JSON.stringify(all, null, 2));
   const detail = all.map((f) => `${f.tag} ${f.route}: [${f.impact}] ${f.id} — ${f.help}\n        ${f.nodes.join('\n        ')}`).join('\n      ');
   assert.equal(all.length, 0, `axe violations:\n      ${detail}`);
+});
+
+await step('demo shortcut (server started with DEMO_SHORTCUTS): a minor skips the parent step, the student still agrees, everything unlocks, axe is clean with the button shown', async () => {
+  const demo = createApp({ dataFile: null, loginLimitPerMinute: 100000, demoShortcuts: true });
+  await new Promise((r) => demo.server.listen(0, '127.0.0.1', r));
+  const mainBase = base;
+  base = `http://127.0.0.1:${demo.server.address().port}`;
+  try {
+    for (const locale of ['ar-SA', 'en']) {
+      const r = await axeScan('user-student-a1', ['/consent'], { locale, tag: `demo/${locale}` });
+      assert.equal(r.found.length, 0, `axe on the consent screen with the shortcut button (${locale}): ${JSON.stringify(r.found)}`);
+    }
+    const u = await newUser('user-student-a1', { locale: 'en' });
+    const { page } = u;
+    await go(page, '/consent');
+    await page.waitForSelector('[data-demo-guardian]');
+    await sane(page, 'consent with demo shortcut');
+    await shot(page, 'consent-demo-en');
+    await page.check('#sc-assessment_processing');
+    await page.click('#consent-form button[type=submit]');
+    await page.waitForFunction(() => /saved/i.test(document.getElementById('consent-msg')?.textContent ?? ''));
+    await go(page, '/dashboard');
+    assert.equal(await page.locator('[data-start]').first().isDisabled(), true, 'the student alone is not enough for a minor');
+    await go(page, '/consent');
+    await page.click('[data-demo-guardian]');
+    await page.waitForFunction(() => /skipped/i.test(document.getElementById('consent-msg')?.textContent ?? ''));
+    assert.equal(await page.locator('[data-demo-guardian]').count(), 0, 'the button goes away once used');
+    assert.match(await page.locator('main').innerText(), /Authorized with the demo shortcut, not by a parent/);
+    await go(page, '/dashboard');
+    assert.equal(await page.locator('[data-start]').first().isDisabled(), false, 'the assessments are unlocked');
+    await u.context.close();
+  } finally {
+    base = mainBase;
+    await new Promise((r) => demo.server.close(r));
+  }
 });
 
 await browser.close();

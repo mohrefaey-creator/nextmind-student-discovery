@@ -39,6 +39,7 @@ The machine-readable contract is [`api/openapi.yaml`](api/openapi.yaml) (OpenAPI
 | `GET /students/:id/discovery-profile` | `profile.read` – student, counselor + sharing | Panels, completeness, evidence, aspirations, preferences, journey |
 | `GET /students/:id/consent` | `consent.read` – student, guardian, counselor | Derived consent state per scope and party |
 | `POST /students/:id/consent` | `consent.write` – student; guardian for `assessment_processing` only and **only while the student is a minor** | Grant or withdraw one scope. During an incident withdrawing still works; granting returns 503 |
+| `POST /students/:id/demo/guardian-authorization` | the student, for themselves, only while under the guardian age, only when the server runs with `DEMO_SHORTCUTS=true` and synthetic mode (else 403 `demo_shortcuts_disabled`) | **Demo only.** Skips the parent step: writes a guardian-side `assessment_processing` record marked `demo_shortcut` (actor = the student; audit action `consent.demo_guardian_shortcut`). The student's own assent is still required; a real guardian can still withdraw. Adult → 409; incident → 503 |
 | `GET /students/:id/evidence` | `evidence.read` | Latest and history |
 | `PUT /students/:id/evidence/:type` | `evidence.write` – student + processing | Enter a value (always `unverified`); invalid ranges 422 |
 | `POST /students/:id/evidence/:evidenceId/verify` | `evidence.verify` – counselor + sharing | Mark counselor-verified (note required) |

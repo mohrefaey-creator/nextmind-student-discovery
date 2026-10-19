@@ -6,6 +6,7 @@
 //    host for looking at the prototype, not a place to keep anything.
 //  * The persona sign-in is NOT authentication. `allowAnyHost` only lifts the loopback-only Host check, so the
 //    deployment MUST stay behind Vercel Deployment Protection (Vercel Authentication or a password).
+//  * DEMO_SHORTCUTS (a Vercel environment variable) switches on the demo-only "skip parent approval" button.
 //  * There is no Chromium on Vercel, so "Download PDF" answers 501 and the screen falls back to print.
 import { createApp } from '../server/app.js';
 

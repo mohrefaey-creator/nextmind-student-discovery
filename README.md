@@ -31,12 +31,14 @@ were created).
 | `ALLOW_NETWORK_HOST` | unset | Explicit, risky opt-in: anyone who can reach the port can act as any persona. |
 | `DATA_FILE` | `data/db.json` | Set to an empty string for an in-memory database. |
 | `SYNTHETIC_MODE` | `true` | Set `false` to see the **fail-closed** behavior: exploratory instruments refuse to start. |
+| `DEMO_SHORTCUTS` | unset (off) | **Demo only.** Set `true` to show a *Skip parent approval (demo only)* button to students under 18, so every screen can be reviewed without a guardian signing in. The student's own agreement is still required; the record and audit log mark it as a shortcut; ignored when `SYNTHETIC_MODE=false`. A real guardian can still withdraw it. Keep it off for anything that is not a demo. |
 | `CHROMIUM_PATH` | auto-detected | Optional. PDF download of approved reports needs an installed Chromium or Chrome (looked up in `$PLAYWRIGHT_BROWSERS_PATH`, `/opt/pw-browsers`, then common system paths). Without one the app works fully and the report page says PDF download is unavailable (print-to-PDF still works). |
 
 ## Hosted demo on Vercel (optional)
 
 `api/index.js` and `vercel.json` run the same handler as a Vercel function (project root directory: `student-discovery`). Know the limits before using it:
 
+* **The hosted demo has `DEMO_SHORTCUTS=true`** (a Vercel environment variable), so a student can skip the parent step. Remove that variable to turn it off.
 * **Auto-deploy:** the Vercel project `nextmind-student-discovery` is linked to this repository, so every push to `main` builds and publishes the demo.
 * **Keep it behind Vercel Deployment Protection** (Vercel Authentication or a password). The persona sign-in is not authentication, and the hosted build lifts the loopback-only Host check so that it can answer on a `*.vercel.app` name.
 * **State is in memory** and seeded with synthetic data when a function instance starts. Instances can start, stop or multiply at any time, so data and sign-ins can vanish and two instances can disagree. It is a place to look at the prototype, not to keep anything.
@@ -46,7 +48,7 @@ were created).
 
 | Try this | Persona | What to notice |
 |---|---|---|
-| Consent flow for a minor | **Demo Student A1**, then **Demo Guardian A1** | Nothing is pre-ticked. A student under the (placeholder) age threshold needs their own assent **and** the guardian's authorization before any question can be answered. |
+| Consent flow for a minor | **Demo Student A1**, then **Demo Guardian A1** (or, in the hosted demo, the *Skip parent approval* button on the consent screen) | Nothing is pre-ticked. A student under the (placeholder) age threshold needs their own assent **and** the guardian's authorization before any question can be answered. |
 | Take the interest module | Student A1 | One accessible radio group per question, autosave, resume after reload, works offline (queued, retried). Submitting seals the attempt. |
 | Read results | **Demo Student A2** (pre-filled) | Six interest bars with numbers, "insufficient data" instead of zero, no percentile, no Holland code, "Verify the calculation" replays the score from the saved answers. |
 | Major suggestions | Student A2 → *Majors* | Interest fit, academic readiness and admission conditions are shown **separately**. Look for *Source outdated*, *Sources conflict*, *Not evaluated*. No admission probability appears anywhere. |

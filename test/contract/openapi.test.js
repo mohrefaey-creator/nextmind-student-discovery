@@ -105,7 +105,7 @@ test('events: the schema lists exactly the events the code emits, and the human 
 let app;
 const log = [];
 before(async () => {
-  app = await startApp();
+  app = await startApp({ demoShortcuts: true }); // the demo-only shortcut is exercised here; its off state is covered by test/api/demoshortcut.test.js
 });
 after(() => app.close());
 
@@ -243,6 +243,14 @@ test('scenario: drive every operation through the real API', async () => {
   ok(await s.post(`${D}/students/${A2}/advisor/explain`, { topic: 'program', program_id: 'prog-demo-cs' }), 200);
   ok(await s.post(`${D}/students/${A2}/advisor/explain`, { topic: 'program', program_id: 'prog-demo-psy' }), 200); // conflicting source: abstains
   ok(await s.post(`${D}/students/${A2}/advisor/explain`, { topic: 'astrology' }), 200, 400);
+
+  // ---- demo-only shortcut for a minor (the app runs with demoShortcuts here)
+  const a1 = await as(A1);
+  ok(await a1.post(`${D}/students/${A1}/consent`, { scope: 'assessment_processing', granted: true }), 200);
+  ok(await (await as('user-guardian-a1')).post(`${D}/students/${A1}/demo/guardian-authorization`, {}), 403);
+  ok(await (await as('user-student-b1')).post(`${D}/students/user-student-b1/demo/guardian-authorization`, {}), 409);
+  assert.equal(ok(await a1.post(`${D}/students/${A1}/demo/guardian-authorization`, {}), 200).changed, true);
+  assert.equal(ok(await a1.post(`${D}/students/${A1}/demo/guardian-authorization`, {}), 200).changed, false);
 
   // ---- assignments: step away from an unconsented student, reassign, repeat
   ok(await co.post(`${D}/students/${A1}/conflict-of-interest`, { reason: 'short' }), 422);

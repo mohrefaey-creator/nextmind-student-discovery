@@ -286,6 +286,22 @@ paths:
         '503': { $ref: '#/components/responses/Problem' }
         default: { $ref: '#/components/responses/Problem' }
 
+  /api/v1/discovery/students/{id}/demo/guardian-authorization:
+    parameters: [{ $ref: '#/components/parameters/Id' }]
+    post:
+      operationId: demoGuardianAuthorization
+      tags: [Student data]
+      summary: "DEMO ONLY: a student under 18 skips the parent step"
+      description: Refused with 403 demo_shortcuts_disabled unless the server runs with DEMO_SHORTCUTS=true and synthetic mode on. It writes a guardian-side consent record for assessment_processing that is marked demo_shortcut (the actor on the record and in the audit log is the student) and does not touch the student's own assent. A real guardian can still withdraw it.
+      x-authorization: "the student, for themselves, and only while under the guardian age; demo flag on"
+      security: [{ sessionCookie: [], csrfToken: [] }]
+      responses:
+        '200': { description: OK (changed=false when it was already granted), content: { application/json: { schema: { $ref: '#/components/schemas/SetConsentResult' } } } }
+        '403': { $ref: '#/components/responses/Problem' }
+        '409': { $ref: '#/components/responses/Problem' }
+        '503': { $ref: '#/components/responses/Problem' }
+        default: { $ref: '#/components/responses/Problem' }
+
   /api/v1/discovery/students/{id}/evidence:
     parameters: [{ $ref: '#/components/parameters/Id' }]
     get:
@@ -1038,13 +1054,14 @@ components:
       properties: { persona: { $ref: '#/components/schemas/Persona' }, csrf_token: { type: string } }
     Me:
       type: object
-      required: [authenticated, persona, csrf_token, linked_students, synthetic_mode, incident_mode, consent_scopes, policy, server_time]
+      required: [authenticated, persona, csrf_token, linked_students, synthetic_mode, demo_shortcuts, incident_mode, consent_scopes, policy, server_time]
       properties:
         authenticated: { type: boolean }
         persona: { oneOf: [{ $ref: '#/components/schemas/Persona' }, { type: 'null' }] }
         csrf_token: { type: [string, 'null'] }
         linked_students: { type: array, items: { $ref: '#/components/schemas/Persona' } }
         synthetic_mode: { type: boolean }
+        demo_shortcuts: { type: boolean, description: True only when the server runs with DEMO_SHORTCUTS and synthetic mode; the screens then offer the demo-only parent-approval shortcut }
         incident_mode:
           type: object
           required: [enabled]
@@ -1220,8 +1237,8 @@ components:
     # ---------------------------------------------------------------- consent
     ScopeParty:
       type: object
-      required: [state, record_id, at]
-      properties: { state: { type: string, enum: [none, granted, withdrawn] }, record_id: { type: [string, 'null'] }, at: { type: [string, 'null'] } }
+      required: [state, record_id, at, demo_shortcut]
+      properties: { state: { type: string, enum: [none, granted, withdrawn] }, record_id: { type: [string, 'null'] }, at: { type: [string, 'null'] }, demo_shortcut: { type: boolean, description: True when this grant came from the demo shortcut and not from the party itself } }
     ScopeState:
       type: object
       required: [required_parties, parties, active, pending, withdrawn, status]

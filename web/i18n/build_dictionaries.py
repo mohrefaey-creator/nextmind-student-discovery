@@ -148,6 +148,11 @@ add('consent.withdraw_warning', 'Saving will withdraw this permission. New proce
 add('consent.save', 'Save my choices', 'حفظ اختياراتي')
 add('consent.saved', 'Your choices were saved.', 'تم حفظ اختياراتك.')
 add('consent.nochange', 'Nothing changed.', 'لم يتغير شيء.')
+add('consent.demo.title', 'Demo shortcut', 'اختصار العرض التجريبي')
+add('consent.demo.body', 'This demo lets you skip the parent step so you can explore every screen. In real use a parent or guardian must authorize first. Your own agreement above is still needed, and the record is marked as a demo shortcut.', 'يتيح هذا العرض تخطي خطوة ولي الأمر لتتمكن من استكشاف كل الشاشات. في الاستخدام الفعلي يجب أن يوافق ولي الأمر أولًا. ما زالت موافقتك أنت أعلاه مطلوبة، ويُوسَم السجل بأنه اختصار للعرض التجريبي.')
+add('consent.demo.button', 'Skip parent approval (demo only)', 'تخطَّ موافقة ولي الأمر (للعرض التجريبي فقط)')
+add('consent.demo.done', 'Parent approval skipped for the demo.', 'تم تخطي موافقة ولي الأمر لأغراض العرض التجريبي.')
+add('consent.guardian_demo', 'Authorized with the demo shortcut, not by a parent.', 'تمت الموافقة عبر اختصار العرض التجريبي وليس من ولي الأمر.')
 add('consent.no_coercion', 'Optional choices never affect what you can do or what you see.', 'الاختيارات الاختيارية لا تؤثر في ما يمكنك فعله أو ما تراه.')
 for s, (a, b) in {'active': ('Active', 'فعّالة'), 'pending': ('Waiting', 'بالانتظار'), 'withdrawn': ('Withdrawn', 'مسحوبة'), 'inactive': ('Off', 'غير مفعّلة')}.items():
     add(f'consent.status.{s}', a, b)

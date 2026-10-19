@@ -6,7 +6,7 @@ a unit test verifies key parity, placeholder parity, and that every domain enume
 | Screen | Route | File | Spec states covered | Gaps |
 |---|---|---|---|---|
 | DISC-01 Landing | `#/discover` | `landing.js` | consent needed | "not eligible" (grade outside 10–12) not modelled |
-| DISC-02 Consent | `#/consent` | `consent.js` | denied (nothing pre-ticked), revoked, guardian pending, layered notice | "expired" consent not modelled |
+| DISC-02 Consent | `#/consent` | `consent.js` | denied (nothing pre-ticked), revoked, guardian pending, layered notice, **demo-only "skip parent approval" button** (only when the server runs with `DEMO_SHORTCUTS=true`) | "expired" consent not modelled |
 | DISC-03 Dashboard | `#/dashboard` | `dashboard.js` | partially complete, resume, instrument suspended ("needs review"), on hold (aptitude), locked without consent | — |
 | DISC-04 Item runner | `#/run/:sid` | `runner.js` | network loss (queued + retry), skip permitted, duplicate submit, sealed, paused by consent, review step | no timed items exist |
 | DISC-05 Result explorer | `#/results` | `results.js` | insufficient data, partial ranking, attempt history, provenance, replay, counselor note | automatic "retest conflict" detection not built (both attempts are shown) |
